@@ -28,6 +28,9 @@
                     </li>
                 <?php }else{ ?>
                     <li class="nav-item">
+                        <a class="nav-link active" href="/cars">Машины</a>
+                    </li>
+                    <li class="nav-item">
                         <a class="nav-link active" href="/profile">Профиль</a>
                     </li>
                     <li class="nav-item">

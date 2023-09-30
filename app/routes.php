@@ -10,3 +10,5 @@ Router::addRoute('/logout', 'UserController', 'logout');
 
 Router::post('/createuser', 'UserController', 'createuser');
 Router::post('/auth', 'UserController', 'auth');
+
+Router::post('/cars', 'CarController', 'driverCars');
