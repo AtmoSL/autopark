@@ -18,8 +18,15 @@ class Model
         $fields = array_keys($data);
         $fieldsStr = implode(", ", $fields);
 
-        $stmt=DataBase::prepare("INSERT INTO `$table` ($fieldsStr) VALUES (?,?,?)");
+        $values = "";
 
+        for($i = 1; $i<=count($fields); $i++){
+            $values.= "?" . (($i != count($fields)) ? ", ": "");
+        }
+
+        $stmt=DataBase::prepare("INSERT INTO `$table` ($fieldsStr) VALUES ($values)");
+
+        var_dump($stmt);
         $i = 1;
         foreach ($data as $value){
             $stmt->bindValue($i, $value);
