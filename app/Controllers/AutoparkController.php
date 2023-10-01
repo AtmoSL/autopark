@@ -7,6 +7,7 @@ use app\Models\AutoparkCars;
 use app\Models\Car;
 use app\Validators\AutoparkValidator;
 use app\Validators\CarValidator;
+use Couchbase\View;
 use service\Auth;
 use service\Router;
 use service\Viewer;
@@ -148,5 +149,28 @@ class AutoparkController
 
         Router::back();
         return true;
+    }
+
+    public function new()
+    {
+        Viewer::view("autoparks/newAutopark");
+    }
+
+    public function newForm($autoparkData)
+    {;
+        array_map("trim", $autoparkData["autopark"]);
+        $autopark = $autoparkData["autopark"];
+        $cars = $autoparkData["cars"];
+
+        debug($autoparkData);
+
+        $validation = AutoparkValidator::validate($autoparkData);
+
+        if (!$validation) {
+            Router::back();
+            return false;
+        }
+
+        debug($cars);
     }
 }
