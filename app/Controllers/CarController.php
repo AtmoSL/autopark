@@ -5,6 +5,7 @@ namespace app\Controllers;
 use app\Models\Autopark;
 use app\Models\AutoparkCars;
 use app\Models\Car;
+use app\Validators\CarValidator;
 use Couchbase\View;
 use service\Auth;
 use service\Router;
@@ -20,7 +21,7 @@ class CarController
 
         $driverId = Auth::getId();
 
-        $carsWithAutopark = Car::where(["user_id" => $driverId], ["id", "number"])
+        $carsWithAutopark = Car::where(["user_id" => $driverId],["="], ["id", "number"])
         ->with(AutoparkCars::$table,
             [AutoparkCars::$table .".car_id". "=" . Car::$table.".id"])
         ->with(Autopark::$table,
@@ -51,7 +52,9 @@ class CarController
 
         $userId = Auth::getId();
 
-        $car = Car::where(["id"=>$id, "user_id"=>$userId], ["id", "number", "driver_name"])->find();
+        $car = Car::where(["id"=>$id, "user_id"=>$userId],
+            ["=","="],
+            ["id", "number", "driver_name"])->find();
 
         if(count($car) < 1){
             http_response_code(404);
@@ -64,5 +67,27 @@ class CarController
         $_POST["driver_name"] = $car[0]->driver_name;
 
         Viewer::view("cars/editCar");
+    }
+
+    public function editForm($carData)
+    {
+        array_map("trim", $carData);
+
+        $validation = CarValidator::editValidate($carData);
+
+        if (!$validation) {
+            Router::back();
+            return false;
+        }
+
+        Car::where(['id'=>$carData["id"]], ["="])
+        ->set([
+            "number" => $carData["number"],
+            "driver_name" => $carData["driver_name"],
+        ]);
+
+        Router::back();
+        return true;
+
     }
 }
