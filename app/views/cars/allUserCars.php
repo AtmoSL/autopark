@@ -1,5 +1,5 @@
-<?php include 'layouts/header.php';
-/** @var \app\Models\Car $car */
+<?php include dirname(__FILE__) .'/../layouts/header.php'
+    /** @var \app\Models\Car $car */
 /** @var array $cars */
 ?>
 
@@ -29,5 +29,4 @@
             </tbody>
         </table>
     </div>
-
-<?php include 'layouts/footer.php' ?>
+<?php include dirname(__FILE__) .'/../layouts/footer.php' ?>
