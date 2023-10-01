@@ -90,4 +90,13 @@ class Router
     {
         header("location: " . $uri);
     }
+
+    /**
+     * Редирект на предыдущую страницу
+     * @return void
+     */
+    public static function back()
+    {
+        header("location: " . $_SERVER['HTTP_REFERER']);
+    }
 }
