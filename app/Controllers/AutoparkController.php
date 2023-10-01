@@ -5,7 +5,9 @@ namespace app\Controllers;
 use app\Models\Autopark;
 use app\Models\AutoparkCars;
 use app\Models\Car;
+use app\Validators\CarValidator;
 use service\Auth;
+use service\Router;
 use service\Viewer;
 
 class AutoparkController
@@ -68,4 +70,54 @@ class AutoparkController
         Viewer::view("autoparks/editAutopark", compact('autopark', 'cars'));
     }
 
+    public function addCarToAutopark($carData)
+    {
+        $number = $carData["number"];
+        $driver_name = $carData["driver_name"];
+        $autoparkId = $carData["autoparkId"];
+
+        $car = Car::where([
+            "number" => $number,
+            "driver_name" => $driver_name
+        ], ["=", "="], ["id"])->find();
+
+        if(count($car) > 0){
+
+            $autoparkCars = AutoparkCars::where([
+                "autopark_id" => $autoparkId,
+                "car_id" => $car[0]->id
+            ], ["=", "="], ["id"])->find();
+
+            if(count($autoparkCars) == 0){
+                AutoparkCars::create([
+                    "autopark_id" => $autoparkId,
+                    "car_id" => $car[0]->id
+                ]);
+                Router::back();
+                exit();
+            }
+
+            $_SESSION["car-messages"][] = "Машина с такими параметрами уже привязана к автопарку";
+            Router::back();
+            exit();
+        }
+
+        $validation = CarValidator::validate($carData);
+
+        if (!$validation) {
+            Router::back();
+            return false;
+        }
+
+        $newCarId = Car::create([
+            "number" => $number,
+            "driver_name" => $driver_name
+        ], true);
+        AutoparkCars::create([
+            "autopark_id" => $autoparkId,
+            "car_id" => $newCarId
+        ]);
+        Router::back();
+        exit;
+    }
 }

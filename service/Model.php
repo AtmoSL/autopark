@@ -12,9 +12,10 @@ class Model
     /**
      * Создание поля в таблице
      * @param $data
-     * @return void
+     * @param bool $withId
+     * @return void|bool
      */
-    public static function create($data)
+    public static function create($data, bool $withId = false )
     {
         $table = static::$table;
 
@@ -36,6 +37,10 @@ class Model
         }
 
         $stmt->execute();
+
+        if($withId){
+            return DataBase::lastInsertId();
+        }
     }
 
     /**
@@ -56,7 +61,7 @@ class Model
 
         $i = 0;
         foreach ($where as $whereField => $whereValue) {
-            self::$whereStr .= static::$table . "." . $whereField . $conditions[$i] . " '" . $whereValue . "'" . (($whereValue != end($where)) ? " AND " : "");
+            self::$whereStr .= static::$table . "." . $whereField . $conditions[$i] . " '" . $whereValue . "'" . (($i != count($where) - 1) ? " AND " : "");
             $i++;
         }
 
