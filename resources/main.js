@@ -1,6 +1,6 @@
 const addCarBtn = document.getElementById("add-car");
 const allCars = document.getElementById("all-cars");
-let carCounter = 1;
+let carCounter = document.querySelectorAll('.car__row').length;
 
 
 addCarBtn.addEventListener("click", (event) => {

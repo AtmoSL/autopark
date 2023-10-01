@@ -16,11 +16,12 @@ class AutoparkController
 {
     public function __construct()
     {
-        if(Auth::getRoleId()!=2){
+        if (Auth::getRoleId() != 2) {
             Router::back();
             exit();
         }
     }
+
     public function all()
     {
         $autoparksWithCars = Autopark::all(["id", "title", "address", "schedule"])
@@ -157,20 +158,73 @@ class AutoparkController
     }
 
     public function newForm($autoparkData)
-    {;
+    {
+        ;
         array_map("trim", $autoparkData["autopark"]);
         $autopark = $autoparkData["autopark"];
         $cars = $autoparkData["cars"];
 
-        debug($autoparkData);
+        $_SESSION["autoparkCreate-form"] = $autoparkData;
 
-        $validation = AutoparkValidator::validate($autoparkData);
+        $autoparkValidation = AutoparkValidator::validate($autopark);
+        $carsValidation = true;
 
-        if (!$validation) {
+
+        foreach ($cars as $key => $car) {
+
+            if ($car["number"])
+
+                $carValidation = CarValidator::validate($car);
+
+            if (!$carValidation) $carsValidation = false;
+            if (!$carValidation) {
+                $_SESSION["autoParkCars-messages"][$key] = $_SESSION["car-messages"];
+                unset($_SESSION["car-messages"]);
+            }
+        }
+
+        if (!$carsValidation) {
             Router::back();
             return false;
         }
 
-        debug($cars);
+        if (!$autoparkValidation) {
+            Router::back();
+            return false;
+        }
+
+        $autoparkId = Autopark::create([
+            "title" => $autopark["title"],
+            "address" => $autopark["address"],
+            "schedule" => $autopark["schedule"],
+        ], true);
+
+        foreach ($cars as $newCar) {
+            $car = Car::where([
+                "number" => $newCar["number"],
+                "driver_name" => $newCar["driver_name"],
+            ], ["=", "="], ["id"])->find();
+
+
+            if (count($car) > 0) {
+                AutoparkCars::create([
+                    "autopark_id" => $autoparkId,
+                    "car_id" => $car[0]->id
+                ]);
+            } else {
+                $newCarId = Car::create([
+                    "number" => $newCar["number"],
+                    "driver_name" => $newCar["driver_name"]
+                ], true);
+
+                AutoparkCars::create([
+                    "autopark_id" => $autoparkId,
+                    "car_id" => $newCarId
+                ]);
+            }
+        }
+
+        Router::redirect("/autopark/edit?id=" . $autoparkId);
+        exit();
     }
 }
