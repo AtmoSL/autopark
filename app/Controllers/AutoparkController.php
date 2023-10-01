@@ -5,6 +5,7 @@ namespace app\Controllers;
 use app\Models\Autopark;
 use app\Models\AutoparkCars;
 use app\Models\Car;
+use app\Validators\AutoparkValidator;
 use app\Validators\CarValidator;
 use service\Auth;
 use service\Router;
@@ -14,9 +15,9 @@ class AutoparkController
 {
     public function all()
     {
-        $autoparksWithCars = Autopark::all(["id", "title", "address","schedule"])
+        $autoparksWithCars = Autopark::all(["id", "title", "address", "schedule"])
             ->withLeft(AutoparkCars::$table,
-            [AutoparkCars::$table . ".autopark_id" . "=" . Autopark::$table . ".id"])
+                [AutoparkCars::$table . ".autopark_id" . "=" . Autopark::$table . ".id"])
             ->withLeft(Car::$table,
                 [AutoparkCars::$table . ".car_id" . "=" . Car::$table . ".id"],
                 ["number as carNumber"])
@@ -81,14 +82,14 @@ class AutoparkController
             "driver_name" => $driver_name
         ], ["=", "="], ["id"])->find();
 
-        if(count($car) > 0){
+        if (count($car) > 0) {
 
             $autoparkCars = AutoparkCars::where([
                 "autopark_id" => $autoparkId,
                 "car_id" => $car[0]->id
             ], ["=", "="], ["id"])->find();
 
-            if(count($autoparkCars) == 0){
+            if (count($autoparkCars) == 0) {
                 AutoparkCars::create([
                     "autopark_id" => $autoparkId,
                     "car_id" => $car[0]->id
@@ -119,5 +120,26 @@ class AutoparkController
         ]);
         Router::back();
         exit;
+    }
+
+    public function editForm($autoparkData)
+    {
+        array_map("trim", $autoparkData);
+
+        $validation = AutoparkValidator::validate($autoparkData);
+
+        if (!$validation) {
+            Router::back();
+            return false;
+        }
+        Autopark::where(['id' => $autoparkData["autoparkId"]], ["="])
+            ->set([
+                "title" => $autoparkData["title"],
+                "address" => $autoparkData["address"],
+                "schedule" => $autoparkData["schedule"]
+            ]);
+
+        Router::back();
+        return true;
     }
 }

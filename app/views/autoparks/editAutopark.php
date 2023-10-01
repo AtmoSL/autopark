@@ -30,16 +30,16 @@
                class="form-control"
                value="<?= $autopark->schedule ?>">
 
-        <?php if (isset($_SESSION["editAutopark-messages"])) { ?>
+        <?php if (isset($_SESSION["autopark-messages"])) { ?>
             <div class="form__errors">
                 <ul>
-                    <?php foreach ($_SESSION["editAutopark-messages"] as $msg) { ?>
+                    <?php foreach ($_SESSION["autopark-messages"] as $msg) { ?>
                         <li><?= $msg ?></li>
                     <?php } ?>
                 </ul>
             </div>
         <?php }
-        unset($_SESSION["editAutopark-messages"]); ?>
+        unset($_SESSION["autopark-messages"]); ?>
 
         <button type="submit" class="btn btn-primary form__btn">Редактировать</button>
     </form>

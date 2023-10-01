@@ -20,3 +20,4 @@ Router::post('/cars/newForm', 'CarController', 'newForm');
 Router::addRoute('/autoparks', 'AutoparkController', 'all');
 Router::get('/autopark/edit', 'AutoparkController', 'edit');
 Router::post('/autopark/edit/addcar', 'AutoparkController', 'addCarToAutopark');
+Router::post('/autopark/editForm', 'AutoparkController', 'editForm');
