@@ -12,5 +12,6 @@ Router::post('/createuser', 'UserController', 'createuser');
 Router::post('/auth', 'UserController', 'auth');
 
 Router::addRoute('/cars', 'CarController', 'driverCars');
+Router::addRoute('/cars/new', 'CarController', 'new');
 Router::get('/car/edit', 'CarController', 'edit');
 Router::post('/car/editForm', 'CarController', 'editForm');

@@ -5,6 +5,7 @@ namespace app\Controllers;
 use app\Models\Autopark;
 use app\Models\AutoparkCars;
 use app\Models\Car;
+use app\Models\User;
 use app\Validators\CarValidator;
 use Couchbase\View;
 use service\Auth;
@@ -15,19 +16,19 @@ class CarController
 {
     public function driverCars()
     {
-        if(!Auth::isAuth()){
+        if (!Auth::isAuth()) {
             Router::redirect("/login");
         }
 
         $driverId = Auth::getId();
 
-        $carsWithAutopark = Car::where(["user_id" => $driverId],["="], ["id", "number"])
-        ->with(AutoparkCars::$table,
-            [AutoparkCars::$table .".car_id". "=" . Car::$table.".id"])
-        ->with(Autopark::$table,
-            [AutoparkCars::$table .".autopark_id". "=" . Autopark::$table .".id"],
-            ["title as autoparkTitle"])
-        ->find();
+        $carsWithAutopark = Car::where(["user_id" => $driverId], ["="], ["id", "number"])
+            ->with(AutoparkCars::$table,
+                [AutoparkCars::$table . ".car_id" . "=" . Car::$table . ".id"])
+            ->with(Autopark::$table,
+                [AutoparkCars::$table . ".autopark_id" . "=" . Autopark::$table . ".id"],
+                ["title as autoparkTitle"])
+            ->find();
 
         $cars = [];
 
@@ -44,7 +45,7 @@ class CarController
     {
         $id = $carData["id"];
 
-        if(!is_numeric($id)){
+        if (!is_numeric($id)) {
             http_response_code(404);
             Viewer::view('404');
             exit();
@@ -52,11 +53,11 @@ class CarController
 
         $userId = Auth::getId();
 
-        $car = Car::where(["id"=>$id, "user_id"=>$userId],
-            ["=","="],
+        $car = Car::where(["id" => $id, "user_id" => $userId],
+            ["=", "="],
             ["id", "number", "driver_name"])->find();
 
-        if(count($car) < 1){
+        if (count($car) < 1) {
             http_response_code(404);
             Viewer::view('404');
             exit();
@@ -80,14 +81,24 @@ class CarController
             return false;
         }
 
-        Car::where(['id'=>$carData["id"]], ["="])
-        ->set([
-            "number" => $carData["number"],
-            "driver_name" => $carData["driver_name"],
-        ]);
+        Car::where(['id' => $carData["id"]], ["="])
+            ->set([
+                "number" => $carData["number"],
+                "driver_name" => $carData["driver_name"],
+            ]);
 
         Router::back();
         return true;
 
+    }
+
+    public function new()
+    {
+        $_POST["driver_name"] = User::where(["id" => Auth::getId()],
+            ["="],
+            ["name"])
+            ->find()[0]->name;
+
+        Viewer::view("cars/newCar");
     }
 }

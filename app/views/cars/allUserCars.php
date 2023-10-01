@@ -5,6 +5,7 @@
 
     <div class="container">
         <h1>Машины</h1>
+        <a href="/cars/new" class="btn btn-success w-100 mb-3">Создать машину</a>
         <table class="table table-striped table-bordered text-center">
             <thead>
             <tr>
