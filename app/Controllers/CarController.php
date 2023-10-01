@@ -14,6 +14,14 @@ use service\Viewer;
 
 class CarController
 {
+    public function __construct()
+    {
+        if(Auth::getRoleId()!=1){
+            Router::back();
+            exit();
+        }
+    }
+
     public function driverCars()
     {
         if (!Auth::isAuth()) {

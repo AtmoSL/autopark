@@ -13,6 +13,13 @@ use service\Viewer;
 
 class AutoparkController
 {
+    public function __construct()
+    {
+        if(Auth::getRoleId()!=2){
+            Router::back();
+            exit();
+        }
+    }
     public function all()
     {
         $autoparksWithCars = Autopark::all(["id", "title", "address", "schedule"])

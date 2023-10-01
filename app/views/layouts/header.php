@@ -27,12 +27,16 @@
                         <a class="nav-link active" href="/register">Регистрация</a>
                     </li>
                 <?php }else{ ?>
-                    <li class="nav-item">
-                        <a class="nav-link active" href="/cars">Машины</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link active" href="/autoparks">Автопарки</a>
-                    </li>
+                        <?php if(\service\Auth::getRoleId() == 1) { ?>
+                        <li class="nav-item">
+                            <a class="nav-link active" href="/cars">Машины</a>
+                        </li>
+                    <?php }?>
+                        <?php if(\service\Auth::getRoleId() == 2) { ?>
+                        <li class="nav-item">
+                            <a class="nav-link active" href="/autoparks">Автопарки</a>
+                        </li>
+                    <?php }?>
                     <li class="nav-item">
                         <a class="nav-link active" href="/profile">Профиль</a>
                     </li>

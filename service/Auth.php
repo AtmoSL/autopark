@@ -21,7 +21,7 @@ class Auth
      */
     public static function auth($id, $role_id)
     {
-        $_SESSION['auth'] = ["user_id" => $id];
+        $_SESSION['auth'] = ["user_id" => $id, "role_id" => $role_id];
     }
 
     /**
@@ -40,5 +40,10 @@ class Auth
     public static function getId(): int
     {
         return $_SESSION['auth']['user_id'];
+    }
+
+    public static function getRoleId()
+    {
+        return $_SESSION['auth']['role_id'];
     }
 }
