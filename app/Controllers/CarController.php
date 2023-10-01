@@ -5,6 +5,7 @@ namespace app\Controllers;
 use app\Models\Autopark;
 use app\Models\AutoparkCars;
 use app\Models\Car;
+use Couchbase\View;
 use service\Auth;
 use service\Router;
 use service\Viewer;
@@ -35,6 +36,33 @@ class CarController
             $cars[$id]["autoparks"][] = $carWithAutopark->autoparkTitle;
         }
 
-        Viewer::view("cars", compact("cars"));
+        Viewer::view("cars/allUserCars", compact("cars"));
+    }
+
+    public function edit($carData)
+    {
+        $id = $carData["id"];
+
+        if(!is_numeric($id)){
+            http_response_code(404);
+            Viewer::view('404');
+            exit();
+        }
+
+        $userId = Auth::getId();
+
+        $car = Car::where(["id"=>$id, "user_id"=>$userId], ["id", "number", "driver_name"])->find();
+
+        if(count($car) < 1){
+            http_response_code(404);
+            Viewer::view('404');
+            exit();
+        }
+
+        $_POST["id"] = $car[0]->id;
+        $_POST["number"] = $car[0]->number;
+        $_POST["driver_name"] = $car[0]->driver_name;
+
+        Viewer::view("cars/editCar");
     }
 }

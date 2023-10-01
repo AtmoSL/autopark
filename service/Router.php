@@ -39,6 +39,22 @@ class Router
     }
 
     /**
+     * Добавление URL с методом POST в список
+     * @param $uri
+     * @param $controller
+     * @param $action
+     * @return void
+     */
+    public static function get($uri, $controller, $action)
+    {
+        self::$links[$uri] = [
+            "controller" => $controller,
+            "action" => $action,
+            "method" => "get"
+        ];
+    }
+
+    /**
      * Ревлизация маршрутов
      * @return void
      */
@@ -53,6 +69,8 @@ class Router
             $controllerObject = new $controllerName();
             if (self::$links[$route]["method"] === "post") {
                 $controllerObject->$action($_POST);
+            } elseif(self::$links[$route]["method"] === "get") {
+                $controllerObject->$action($_GET);
             } else {
                 $controllerObject->$action();
             }

@@ -11,4 +11,5 @@ Router::addRoute('/logout', 'UserController', 'logout');
 Router::post('/createuser', 'UserController', 'createuser');
 Router::post('/auth', 'UserController', 'auth');
 
-Router::post('/cars', 'CarController', 'driverCars');
+Router::addRoute('/cars', 'CarController', 'driverCars');
+Router::get('/car/edit', 'CarController', 'edit');
