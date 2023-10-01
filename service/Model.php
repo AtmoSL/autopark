@@ -83,6 +83,25 @@ class Model
     }
 
     /**
+     * Создание связи с другой таблицей через left join
+     * @param $withTable
+     * @param array $conditions
+     * @param array|null $fields
+     * @return $this
+     */
+    public function withLeft($withTable, array $conditions, array $fields = null)
+    {
+        if ($fields) {
+            self::$fieldsSTR .= ", " . $withTable . "." . implode(", $withTable.", $fields);
+        }
+
+        $conditionsSTR = implode(", ", $conditions);
+        self::$withSTR .= " LEFT JOIN $withTable ON $conditionsSTR";
+
+        return $this;
+    }
+
+    /**
      * Получение информации из таблицы
      * @return mixed
      */
