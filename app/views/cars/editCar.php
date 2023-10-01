@@ -22,16 +22,16 @@
                    class="form-control"
                    value="<?= (isset($_POST["driver_name"])) ? $_POST["driver_name"] : "" ?>">
 
-            <?php if (isset($_SESSION["editCar-messages"])) { ?>
+            <?php if (isset($_SESSION["car-messages"])) { ?>
                 <div class="form__errors">
                     <ul>
-                        <?php foreach ($_SESSION["editCar-messages"] as $msg) { ?>
+                        <?php foreach ($_SESSION["car-messages"] as $msg) { ?>
                             <li><?= $msg ?></li>
                         <?php } ?>
                     </ul>
                 </div>
             <?php }
-            unset($_SESSION["editCar-messages"]); ?>
+            unset($_SESSION["car-messages"]); ?>
 
             <button type="submit" class="btn btn-primary form__btn">Редактировать</button>
         </form>

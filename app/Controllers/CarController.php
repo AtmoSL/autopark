@@ -74,7 +74,7 @@ class CarController
     {
         array_map("trim", $carData);
 
-        $validation = CarValidator::editValidate($carData);
+        $validation = CarValidator::validate($carData);
 
         if (!$validation) {
             Router::back();
@@ -106,7 +106,7 @@ class CarController
     {
         array_map("trim", $carData);
 
-        $validation = CarValidator::createValidate($carData);
+        $validation = CarValidator::validate($carData);
 
         if (!$validation) {
             Router::back();
