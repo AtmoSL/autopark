@@ -116,6 +116,8 @@ class CarController
 
         $validation = CarValidator::validate($carData);
 
+        $_SESSION["createCar-form"] = $carData;
+
         if (!$validation) {
             Router::back();
             return false;

@@ -85,6 +85,8 @@ class AutoparkController
         $driver_name = $carData["driver_name"];
         $autoparkId = $carData["autoparkId"];
 
+        $_SESSION["addCarToAutopark-form"] = $carData;
+
         $car = Car::where([
             "number" => $number,
             "driver_name" => $driver_name

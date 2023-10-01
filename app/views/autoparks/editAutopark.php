@@ -47,7 +47,8 @@
         <button type="button"
                 class="btn btn-danger mt-3 w-100"
                 id="deleteAutopark"
-                data-autopark-id="<?= $autopark->id ?>">Удалить автопарк</button>
+                data-autopark-id="<?= $autopark->id ?>">Удалить автопарк
+        </button>
 
         <form action="/autopark/edit/addcar" method="post" class="mt-3">
             <input type="hidden" name="autoparkId" value="<?= $autopark->id ?>">
@@ -55,13 +56,17 @@
             <input type="text"
                    name="number"
                    id="number"
-                   class="form-control">
+                   class="form-control"
+                   value="<?= (!empty($_SESSION["addCarToAutopark-form"]["number"]) ?
+                       $_SESSION["addCarToAutopark-form"]["number"] : "") ?>">
 
             <label for="driver_name" class="form-label">Имя водителя</label>
             <input type="text"
                    name="driver_name"
                    id="driver_name"
-                   class="form-control">
+                   class="form-control"
+                   value="<?= (!empty($_SESSION["addCarToAutopark-form"]["driver_name"]) ?
+                $_SESSION["addCarToAutopark-form"]["driver_name"] : "") ?>">
             <button type="submit" class="btn btn-warning w-100 mt-2 mb-2">Добавить машину</button>
             <?php if (isset($_SESSION["car-messages"])) { ?>
                 <div class="form__errors">
@@ -72,7 +77,8 @@
                     </ul>
                 </div>
             <?php }
-            unset($_SESSION["car-messages"]); ?>
+            unset($_SESSION["car-messages"]);
+            unset($_SESSION["addCarToAutopark-form"])?>
         </form>
 
 

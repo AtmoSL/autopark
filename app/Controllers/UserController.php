@@ -65,6 +65,7 @@ class UserController
             Router::redirect("/profile");
             return false;
         }
+        $_SESSION["registration-form"] = $userData;
 
         array_map("trim", $userData);
 
@@ -113,6 +114,8 @@ class UserController
      */
     public function auth($userData)
     {
+        $_SESSION["login-form"] = $userData;
+
         $user = User::where([
             "email" => $userData["email"],
             "password" => md5($userData["password"])
