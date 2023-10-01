@@ -29,7 +29,6 @@ class Model
 
         $stmt = DataBase::prepare("INSERT INTO `$table` ($fieldsStr) VALUES ($values)");
 
-        var_dump($stmt);
         $i = 1;
         foreach ($data as $value) {
             $stmt->bindValue($i, $value);
@@ -109,5 +108,28 @@ class Model
         self::$fieldsSTR = '';
         self::$withSTR = '';
         self::$whereStr = '';
+    }
+
+
+    /**
+     * Установка новых значений в БД
+     * @param $data
+     * @return void
+     */
+    public function set($data)
+    {
+        $table = static::$table;
+        $fieldsStr = "";
+
+        foreach ($data as $field => $value){
+            $fieldsStr.= $field . " = '$value' ". (($value != end($data)) ? ", " : "");
+        }
+
+        $stmt = DataBase::prepare("UPDATE `$table` SET $fieldsStr WHERE ". self::$whereStr);
+
+        debug($stmt);
+        $this->reset();
+
+        $stmt->execute();
     }
 }
