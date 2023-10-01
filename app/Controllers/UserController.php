@@ -116,7 +116,7 @@ class UserController
         $user = User::where([
             "email" => $userData["email"],
             "password" => md5($userData["password"])
-        ], ["id"])->find();;
+        ], ["id", "role_id"])->find()[0];;
 
         if (empty($user)) {
             $_SESSION["login-messages"][] = "Введены неверные данные";
@@ -124,7 +124,7 @@ class UserController
             return false;
         }
 
-        Auth::auth($user[0]->id);
+        Auth::auth($user->id, $user->role_id);
         Router::redirect("/profile");
         return true;
     }
