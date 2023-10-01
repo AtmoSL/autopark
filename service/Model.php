@@ -45,7 +45,7 @@ class Model
      * @param $fields
      * @return mixed
      */
-    public static function where(array $where, $fields = ["*"])
+    public static function where(array $where, array $conditions, $fields = ["*"])
     {
         $table = static::$table;
 
@@ -55,9 +55,10 @@ class Model
             self::$fieldsSTR = " " . $table . "." . implode(", $table.", $fields);
         }
 
-
+        $i = 0;
         foreach ($where as $whereField => $whereValue) {
-            self::$whereStr .= static::$table . "." . $whereField . "= '" . $whereValue . "'" . (($whereValue != end($where)) ? " AND " : "");
+            self::$whereStr .= static::$table . "." . $whereField . $conditions[$i] . " '" . $whereValue . "'" . (($whereValue != end($where)) ? " AND " : "");
+            $i++;
         }
 
         return new static();
