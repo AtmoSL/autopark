@@ -17,7 +17,7 @@ class UserValidator extends Validator
         $isValidated = true;
         $userByEmail = User::where(["email" => $userData["email"]],
             ["="],
-            ["id"]);
+            ["id"])->find();
 
         if (self::isEmpty($userData)) {
             $_SESSION["register-messages"][] = "Все поля должны быть заполнены";
