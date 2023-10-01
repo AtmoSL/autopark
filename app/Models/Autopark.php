@@ -2,7 +2,9 @@
 
 namespace app\Models;
 
-class Autopark
+use service\Model;
+
+class Autopark extends Model
 {
     public static string $table = "autoparks";
 }
