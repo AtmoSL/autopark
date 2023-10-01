@@ -150,4 +150,24 @@ class Model
 
         $stmt->execute();
     }
+
+    /**
+     * Получение всех записей
+     * @param $fields
+     * @return static
+     */
+    public static function all(array $fields = ["*"])
+    {
+        $table = static::$table;
+
+        if ($fields === ["*"]) {
+            self::$fieldsSTR = "*";
+        } else {
+            self::$fieldsSTR = " " . $table . "." . implode(", $table.", $fields);
+        }
+
+        self::$whereStr = 1;
+
+        return new static();
+    }
 }
