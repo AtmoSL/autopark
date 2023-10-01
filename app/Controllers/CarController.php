@@ -23,9 +23,9 @@ class CarController
         $driverId = Auth::getId();
 
         $carsWithAutopark = Car::where(["user_id" => $driverId], ["="], ["id", "number"])
-            ->with(AutoparkCars::$table,
+            ->withLeft(AutoparkCars::$table,
                 [AutoparkCars::$table . ".car_id" . "=" . Car::$table . ".id"])
-            ->with(Autopark::$table,
+            ->withLeft(Autopark::$table,
                 [AutoparkCars::$table . ".autopark_id" . "=" . Autopark::$table . ".id"],
                 ["title as autoparkTitle"])
             ->find();
