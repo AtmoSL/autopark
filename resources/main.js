@@ -1,8 +1,20 @@
 const addCarBtn = document.getElementById("add-car");
 const allCars = document.getElementById("all-cars");
 let carCounter = document.querySelectorAll('.car__row').length;
+const deleteAutoparkBtn = document.getElementById("deleteAutopark");
 
 
+//Предупреждение при удалении автопарка
+deleteAutoparkBtn.addEventListener("click",(event)=>{
+    const isDelete = confirm("Автопарк будет удалён без возможности восстановления. Машины останутся в базе.");
+
+    if(isDelete){
+        window.location.href = '/autopark/delete?id=' + deleteAutoparkBtn.dataset.autoparkId;
+    }
+
+});
+
+//Добавление поля для машины на странице создания автопарка
 addCarBtn.addEventListener("click", (event) => {
     const carForm = createCarForm(carCounter);
     carCounter++;

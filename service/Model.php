@@ -175,4 +175,21 @@ class Model
 
         return new static();
     }
+
+    public static function delete(array $where, array $conditions)
+    {
+        $table = static::$table;
+
+        $i = 0;
+        foreach ($where as $whereField => $whereValue) {
+            self::$whereStr .= static::$table . "." . $whereField . $conditions[$i] . " '" . $whereValue . "'" . (($i != count($where) - 1) ? " AND " : "");
+            $i++;
+        }
+
+        $stmt = DataBase::prepare("DELETE FROM `$table` WHERE ". self::$whereStr);
+
+        self::$whereStr = "";
+
+        $stmt->execute();
+    }
 }
