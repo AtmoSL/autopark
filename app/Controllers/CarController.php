@@ -101,4 +101,25 @@ class CarController
 
         Viewer::view("cars/newCar");
     }
+
+    public function newForm($carData)
+    {
+        array_map("trim", $carData);
+
+        $validation = CarValidator::createValidate($carData);
+
+        if (!$validation) {
+            Router::back();
+            return false;
+        }
+
+        Car::create([
+            "number" => $carData["number"],
+            "user_id" => Auth::getId(),
+            "driver_name" => $carData["driver_name"]
+        ]);
+
+        Router::redirect("/cars");
+        return true;
+    }
 }

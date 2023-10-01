@@ -15,3 +15,4 @@ Router::addRoute('/cars', 'CarController', 'driverCars');
 Router::addRoute('/cars/new', 'CarController', 'new');
 Router::get('/car/edit', 'CarController', 'edit');
 Router::post('/car/editForm', 'CarController', 'editForm');
+Router::post('/cars/newForm', 'CarController', 'newForm');

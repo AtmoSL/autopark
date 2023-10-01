@@ -4,7 +4,7 @@
 
     <div class="container">
         <h1>Создание машины</h1>
-        <form action="/car/newForm" class="form" method="post">
+        <form action="/cars/newForm" class="form" method="post">
 
             <label for="number" class="form-label">Номер машины</label>
             <input type="text"
