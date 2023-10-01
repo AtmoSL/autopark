@@ -127,7 +127,6 @@ class Model
 
         $stmt = DataBase::prepare("UPDATE `$table` SET $fieldsStr WHERE ". self::$whereStr);
 
-        debug($stmt);
         $this->reset();
 
         $stmt->execute();
