@@ -126,7 +126,11 @@ class UserController
         }
 
         Auth::auth($user->id, $user->role_id);
-        Router::redirect("/profile");
+        if(Auth::getRoleId() == 1){
+            Router::redirect("/cars");
+        }elseif(Auth::getRoleId() == 2){
+            Router::redirect("/autoparks");
+        }
         return true;
     }
 }
