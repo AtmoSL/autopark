@@ -18,3 +18,17 @@ h1{
 .form__btn{
     margin-top: 10px;
 }
+
+.delete_car{
+    background-color: red;
+    width: 40px;
+    height: 40px;
+    text-align: center;
+    align-self: end;
+    padding-top: 7px;
+    margin-bottom: 8px;
+}
+
+.delete_car:hover{
+    cursor: pointer;
+}
