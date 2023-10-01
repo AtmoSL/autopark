@@ -49,7 +49,7 @@ class UserController
             return false;
         }
 
-        $user = User::where(["id" => Auth::getId()], ["name", "email"])->find()[0];
+        $user = User::where(["id" => Auth::getId()], ["="], ["name", "email"])->find()[0];
 
         Viewer::view('profile', compact('user'));
     }
@@ -81,7 +81,7 @@ class UserController
 
         User::create($userData);
 
-        $user = User::where(["email" => $userData["email"]], ["id", "role_id"])->find()[0];
+        $user = User::where(["email" => $userData["email"]], ["="], ["id", "role_id"])->find()[0];
 
         Auth::auth($user->id, $user->role_id);
 
@@ -116,7 +116,8 @@ class UserController
         $user = User::where([
             "email" => $userData["email"],
             "password" => md5($userData["password"])
-        ], ["id", "role_id"])->find()[0];;
+            ], ["=", "="],
+            ["id", "role_id"])->find()[0];;
 
         if (empty($user)) {
             $_SESSION["login-messages"][] = "Введены неверные данные";
