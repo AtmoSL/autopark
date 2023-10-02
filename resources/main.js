@@ -60,18 +60,22 @@ function createCarForm(carCounter) {
 
     carForm.appendChild(carFormRow);
 
-    carFormRow.innerHTML = "<label for=\"number\" class=\"form-label text-center\">Номер машины\n" +
-        "                        <input type=\"text\"\n" +
-        "                               name=\"cars[car" + carCounter + "][number]\"\n" +
-        "                               id=\"number\"\n" +
-        "                               class=\"form-control\"></label>\n" +
-        "\n" +
-        "                    <label for=\"driver_name\" class=\"form-label text-center\">Имя водителя\n" +
-        "                        <input type=\"text\"\n" +
-        "                               name=\"cars[car" + carCounter + "][driver_name]\"\n" +
-        "                               id=\"driver_name\"\n" +
-        "                               class=\"form-control\"> </label>" +
-        "                   <div class='delete_car' id=\"delete-" + carCounter + "\" data-row-id=\"" +carCounter+ "\">Х</div>"
-    ;
+    carFormRow.innerHTML= `        
+        <label for="number" class="form-label text-center">Номер машины
+            <input type="text"
+                   name="cars[${carCounter}][number]"
+                   id="number"
+                   class="form-control"></label>
+
+
+        <label for="driver_name" class="form-label text-center">Имя водителя
+            <input type="text"
+                   name="cars[${carCounter}][driver_name]"
+                   id="driver_name"
+                   class="form-control"> </label>
+        <div class="delete_car" id="delete-${carCounter}" data-row-id="${carCounter}">Х</div>
+`;
     return carForm;
 }
+
+
