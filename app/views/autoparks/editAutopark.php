@@ -82,22 +82,28 @@
         </form>
 
 
-        <table class="table table-striped table-bordered text-center">
-            <thead>
-            <tr>
-                <th scope="col">Номера привязанных машин</th>
-            </tr>
-            </thead>
-            <tbody>
-            <?php foreach ($cars as $number) {
-                ; ?>
+        <div class="cars">
+            <div class="title text-center"><strong>Привязанные машины</strong></div>
+            <?php include "elements/editAutopark-carForm.php"?>
 
-                <tr>
-                    <td><?= $number ?></td>
-                </tr>
+        </div>
 
-            <?php } ?>
-            </tbody>
-        </table>
+<!--        <table class="table table-striped table-bordered text-center">-->
+<!--            <thead>-->
+<!--            <tr>-->
+<!--                <th scope="col">Номера привязанных машин</th>-->
+<!--            </tr>-->
+<!--            </thead>-->
+<!--            <tbody>-->
+<!--            --><?php //foreach ($cars as $number) {
+//                ; ?>
+<!---->
+<!--                <tr>-->
+<!--                    <td>--><?php //= $number ?><!--</td>-->
+<!--                </tr>-->
+<!---->
+<!--            --><?php //} ?>
+<!--            </tbody>-->
+<!--        </table>-->
     </div>
 <?php include dirname(__FILE__) . '/../layouts/footer.php' ?>

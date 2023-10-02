@@ -68,12 +68,13 @@ class AutoparkController
                 [AutoparkCars::$table . ".autopark_id" . "=" . Autopark::$table . ".id"])
             ->withLeft(Car::$table,
                 [AutoparkCars::$table . ".car_id" . "=" . Car::$table . ".id"],
-                ["number as carNumber"])
+                ["number as carNumber", "driver_name", "id as carId"])
             ->find();
 
         $cars = [];
         foreach ($autoparksWithCars as $element) {
-            $cars[] = $element->carNumber;
+            $cars[$element->carId]["number"] = $element->carNumber;
+            $cars[$element->carId]["driver_name"] = $element->driver_name;
         }
 
         Viewer::view("autoparks/editAutopark", compact('autopark', 'cars'));
@@ -147,6 +148,33 @@ class AutoparkController
                 "title" => $autoparkData["title"],
                 "address" => $autoparkData["address"],
                 "schedule" => $autoparkData["schedule"]
+            ]);
+
+        Router::back();
+        return true;
+    }
+
+    public function editCar($carData)
+    {
+        array_map("trim", $carData);
+
+
+        $validation = CarValidator::validate($carData);
+
+        if (!$validation) {
+            $_SESSION["autoParkCarsEdit-messages"][$carData["id"]]=$_SESSION["car-messages"];
+            unset($_SESSION["car-messages"]);
+
+            $_SESSION["autoParkCarsEdit-form"][$carData["id"]] = $carData;
+
+            Router::back();
+            return false;
+        }
+
+        Car::where(['id' => $carData["id"]], ["="])
+            ->set([
+                "number" => $carData["number"],
+                "driver_name" => $carData["driver_name"],
             ]);
 
         Router::back();
