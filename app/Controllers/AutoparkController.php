@@ -172,8 +172,6 @@ class AutoparkController
 
         foreach ($cars as $key => $car) {
 
-            if ($car["number"])
-
                 $carValidation = CarValidator::validate($car);
 
             if (!$carValidation) $carsValidation = false;

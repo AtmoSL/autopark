@@ -1,6 +1,7 @@
 const addCarBtn = document.getElementById("add-car");
 const allCars = document.getElementById("all-cars");
 const deleteAutoparkBtn = document.getElementById("deleteAutopark");
+const deleteCarBtns = document.querySelectorAll(".delete_car");
 
 //Предупреждение при удалении автопарка
 if (deleteAutoparkBtn) {
@@ -23,22 +24,43 @@ if (addCarBtn) {
 
         const deleteBtn = document.getElementById("delete-" + carId );
 
+        //Добавление события на кнопку удаления нового элемента
         deleteBtn.addEventListener("click", function (event) {
-            console.log("asd");
-            const carRow = document.getElementById("car-row-" + carId);
-            carRow.remove();
+            deleteCarRow(event.target.dataset.rowId);
         });
 
     });
 }
 
+//Событие удаления формы для существующих кнопок
+if(deleteCarBtns){
+    deleteCarBtns.forEach(function (deleteCarBtn){
+        deleteCarBtn.addEventListener("click", function (event){
+            deleteCarRow(event.target.dataset.rowId);
+        })
+    });
+}
+
+// Удаление формы машины
+function deleteCarRow(id){
+    console.log(id);
+    const carRow = document.getElementById("car-row-" + id);
+    carRow.remove();
+}
+
+
 
 // Формирование формы для машин
 function createCarForm(carCounter) {
     const carForm = document.createElement('div');
-    carForm.className = "car__row d-flex justify-content-between";
     carForm.id = "car-row-" + carCounter;
-    carForm.innerHTML = "<label for=\"number\" class=\"form-label text-center\">Номер машины\n" +
+    carForm.className = "car__row";
+    const carFormRow = document.createElement('div');
+    carFormRow.className = " d-flex justify-content-between";
+
+    carForm.appendChild(carFormRow);
+
+    carFormRow.innerHTML = "<label for=\"number\" class=\"form-label text-center\">Номер машины\n" +
         "                        <input type=\"text\"\n" +
         "                               name=\"cars[car" + carCounter + "][number]\"\n" +
         "                               id=\"number\"\n" +
@@ -49,7 +71,7 @@ function createCarForm(carCounter) {
         "                               name=\"cars[car" + carCounter + "][driver_name]\"\n" +
         "                               id=\"driver_name\"\n" +
         "                               class=\"form-control\"> </label>" +
-        "                   <div class='delete_car' id=\"delete-" + carCounter + "\">Х</div>"
+        "                   <div class='delete_car' id=\"delete-" + carCounter + "\" data-row-id=\"" +carCounter+ "\">Х</div>"
     ;
     return carForm;
 }
