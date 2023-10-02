@@ -162,7 +162,7 @@ class AutoparkController
         $validation = CarValidator::validate($carData);
 
         if (!$validation) {
-            $_SESSION["autoParkCarsEdit-messages"][$carData["id"]]=$_SESSION["car-messages"];
+            $_SESSION["autoParkCarsEdit-messages"][$carData["id"]] = $_SESSION["car-messages"];
             unset($_SESSION["car-messages"]);
 
             $_SESSION["autoParkCarsEdit-form"][$carData["id"]] = $carData;
@@ -176,6 +176,26 @@ class AutoparkController
                 "number" => $carData["number"],
                 "driver_name" => $carData["driver_name"],
             ]);
+
+        Router::back();
+        return true;
+    }
+
+    public function deleteCar($carData)
+    {
+        $id = $carData["id"];
+        $autoparkId = $carData["autopark"];
+
+        if (!is_numeric($id)) {
+            http_response_code(404);
+            Viewer::view('404');
+            exit();
+        }
+
+        AutoparkCars::delete([
+            "autopark_id" => $autoparkId,
+            "car_id" => $id
+        ], ["=", "="]);
 
         Router::back();
         return true;
@@ -200,7 +220,7 @@ class AutoparkController
 
         foreach ($cars as $key => $car) {
 
-                $carValidation = CarValidator::validate($car);
+            $carValidation = CarValidator::validate($car);
 
             if (!$carValidation) $carsValidation = false;
             if (!$carValidation) {

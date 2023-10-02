@@ -24,7 +24,7 @@ foreach ($cars as $id => $car) { ?>
             </div>
             <div class="car__row__form__btns">
                 <button type="submit" class="btn btn-success">Сохранить изменения</button>
-                <a href="#" class="btn btn-danger">Удалить</a>
+                <a href="/autopark/deletecar?id=<?= $id ?>&autopark=<?= $autopark->id ?>" class="btn btn-danger">Удалить</a>
             </div>
 
             <?php

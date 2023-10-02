@@ -21,6 +21,7 @@ Router::addRoute('/autoparks', 'AutoparkController', 'all');
 Router::addRoute('/autoparks/new', 'AutoparkController', 'new');
 Router::get('/autopark/edit', 'AutoparkController', 'edit');
 Router::get('/autopark/delete', 'AutoparkController', 'delete');
+Router::get('/autopark/deletecar', 'AutoparkController', 'deleteCar');
 Router::post('/autopark/edit/addcar', 'AutoparkController', 'addCarToAutopark');
 Router::post('/autopark/edit/changeCar', 'AutoparkController', 'editCar');
 Router::post('/autopark/editForm', 'AutoparkController', 'editForm');
