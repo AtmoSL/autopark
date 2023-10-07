@@ -15,11 +15,11 @@ class AutoparkValidator extends Validator
     {
         $isValidated = true;
 
-        if(empty($autoparkData["title"])){
+        if(self::isEmpty($autoparkData["title"])){
             $_SESSION["autopark-messages"][] = "Пожалуйста, укажите название автопарка";
             $isValidated = false;
         }
-        if(empty($autoparkData["address"])){
+        if(self::isEmpty($autoparkData["address"])){
             $_SESSION["autopark-messages"][] = "Пожалуйста, укажите адрес автопарка";
             $isValidated = false;
         }

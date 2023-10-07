@@ -16,11 +16,11 @@ class CarValidator extends Validator
     {
         $isValidated = true;
 
-        if(empty($carData["number"])){
+        if(self::isEmpty($carData["number"])){
             $_SESSION["car-messages"][] = "Пожалуйста, укажите номер машины";
             $isValidated = false;
         }
-        if(empty($carData["driver_name"])){
+        if(self::isEmpty($carData["driver_name"])){
             $_SESSION["car-messages"][] = "Пожалуйста, укажите номер водителя";
             $isValidated = false;
         }
