@@ -14,21 +14,17 @@ class CarValidator extends Validator
      */
     public static function validate($carData) : bool
     {
-        $isValidated = true;
-
         if(self::isEmpty($carData["number"])){
             $_SESSION["car-messages"][] = "Пожалуйста, укажите номер машины";
-            $isValidated = false;
         }
         if(self::isEmpty($carData["driver_name"])){
             $_SESSION["car-messages"][] = "Пожалуйста, укажите номер водителя";
-            $isValidated = false;
         }
         if (!self::isOnlyLetters($carData["driver_name"])) {
             $_SESSION["car-messages"][] = "В имени могут быть только буквы";
-            $isValidated = false;
         }
 
-        return $isValidated;
+        return count($_SESSION['car-messages']) === 0;
+
     }
 }
